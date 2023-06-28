@@ -1,0 +1,6 @@
+langchain
+google-api-python-client
+langchain[llms]
+chromadb
+jq
+tiktoken
