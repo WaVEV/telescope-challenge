@@ -17,6 +17,11 @@ RUN pip install -r requirements.txt
 VOLUME /downloads
 VOLUME /chromadb
 
+# Set the environment variable
+ENV OPENAI_API_KEY=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
+ENV DOWNLOAD_FOLDER=/downloads
+ENV CHROMADB_FOLDER=/chromadb
+
 # Add your application code
 COPY . .
 

@@ -9,7 +9,7 @@ from langchain.embeddings import OpenAIEmbeddings
 
 
 # Configure the logging settings
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 

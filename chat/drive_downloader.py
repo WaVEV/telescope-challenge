@@ -9,7 +9,7 @@ from googleapiclient.errors import HttpError
 
 
 # Configure the logging settings
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -32,7 +32,7 @@ class GoogleDriveDownloader:
                 done = False
                 while done is False:
                     status, done = downloader.next_chunk()
-                    logger.debug(F'Download {int(status.progress() * 100)}.')
+                    logger.info(F'Download {int(status.progress() * 100)}.')
 
         except HttpError as error:
             logger.error(F'An error occurred: {error}')
@@ -52,7 +52,7 @@ class GoogleDriveDownloader:
             q="mimeType='application/octet-stream'").execute().get('files', [])
         for file in files:
             content = self.get_document_content(file)
-            logger.debug(content)
+            logger.info(content)
 
     def __delete__(self):
         self.drive_service.close()

@@ -7,7 +7,7 @@ from vectorizer_db_factory import VectorStoreDBCreator
 
 
 # Configure the logging settings
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
