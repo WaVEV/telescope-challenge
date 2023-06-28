@@ -31,4 +31,8 @@ if __name__ == '__main__':
             logger.info("Exiting")
             break
         response = qa.query_with_sources(question)
-        print(response)
+        print("="*20)
+        print(f'Answer: {response["answer"]}')
+        print("="*20)
+        print(f'Sources: {response["sources"]}')
+        print("="*20)

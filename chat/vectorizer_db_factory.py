@@ -33,7 +33,7 @@ class VectorStoreDBCreator:
             ]
 
         for loader in loaders:
-            logger.debug("processing data...")
+            logger.info("processing data...")
             documents = loader.load()
             docs = text_splitter.split_documents(documents)
             db.add_documents(docs)
@@ -41,19 +41,19 @@ class VectorStoreDBCreator:
     def load_vector_store(self):
 
         if self._db:
-            logger.debug("DB already exists.")
+            logger.info("DB already exists.")
             return self._db
 
         if self.persistent_directory:
-            logger.debug("Creating a persistent DB.")
+            logger.info("Creating a persistent DB.")
             self._db = Chroma(embedding_function=self._embedding_function, persist_directory=self.persistent_directory)
             self._db.persist()
         else:
-            logger.debug("Creating a non persistent DB.")
+            logger.info("Creating a non persistent DB.")
             self._db = Chroma(embedding_function=self._embedding_function)
 
         if self.corpora_folder or self.corpora_files:
-            logger.debug("Add new data to the DB.")
+            logger.info("Add new data to the DB.")
             self._load_docs(self._db)
 
         return self._db
