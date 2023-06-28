@@ -8,6 +8,7 @@ from vectorizer_db_factory import VectorStoreDBCreator
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+
 if __name__ == '__main__':
 
     DOWNLOAD_FOLDER = os.getenv("DOWNLOAD_FOLDER", default="downloads")

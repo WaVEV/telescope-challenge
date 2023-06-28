@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ContextAwareQA:
 
     def __init__(self, vectorstore: VectorStoreDBCreator, llm: Optional[BaseChatModel] = None) -> None:
-        self.llm = llm or ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+        self.llm = llm or ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, max_tokens=500)
         self.vectorstore = vectorstore
 
     def query_with_sources(
@@ -24,7 +24,7 @@ class ContextAwareQA:
         vectorstore = self.vectorstore.load_vector_store()
         """Query the vectorstore and get back sources."""
         chain = RetrievalQAWithSourcesChain.from_chain_type(
-            self.llm, retriever=vectorstore.as_retriever(), **kwargs
+            self.llm, retriever=vectorstore.as_retriever(search_kwargs={"k": 3}), **kwargs
         )
         return chain({chain.question_key: question})
 
