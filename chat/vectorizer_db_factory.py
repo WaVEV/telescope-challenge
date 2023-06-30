@@ -1,5 +1,6 @@
 import logging
 import os
+from functools import cached_property
 from typing import List
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import CharacterTextSplitter
@@ -38,11 +39,8 @@ class VectorStoreDBCreator:
             docs = text_splitter.split_documents(documents)
             db.add_documents(docs)
 
-    def load_vector_store(self):
-
-        if self._db:
-            logger.info("DB already exists.")
-            return self._db
+    @cached_property
+    def vectorstore(self):
 
         if self.persistent_directory:
             logger.info("Creating a persistent DB.")

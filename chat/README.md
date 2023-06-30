@@ -1,5 +1,5 @@
-# telescope-challenge
+# ChatBot
 
-docker build -t my-python-app .
+docker build -t chat-bot .
 
-docker run -v $(pwd)/downloads:/downloads -v $(pwd)/chromadb:/chromadb chat-bot
+docker run -it -v $(pwd)/downloads:/downloads -v $(pwd)/chromadb:/chromadb -e "OPENAI_API_KEY=<OPENAI_API_KEY>" chat-bot
