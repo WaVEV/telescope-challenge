@@ -37,3 +37,5 @@ A `companies.csv` file, username, and user password must be provided in order to
 Please note that the code provided in this challenge only covers the happy path of logging in to LinkedIn and does not handle cases where LinkedIn may require a captcha for authentication. In such cases, additional steps would be necessary to handle the captcha.
 
 However, some workarounds have been implemented to mitigate the occurrence of captchas and handle them in the majority of cases (like set the user agent or reloading the page). These workarounds aim to minimize the likelihood of encountering captchas during the login process.
+
+The companies.csv were provided as an example of csv.

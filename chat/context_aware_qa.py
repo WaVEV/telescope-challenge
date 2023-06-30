@@ -54,15 +54,3 @@ class ContextAwareQA:
             self.llm, retriever=vectorstore.as_retriever(search_kwargs={"k": 3}), **kwargs
         )
         return chain({chain.question_key: question})
-
-
-if __name__ == '__main__':
-
-    vdb_factory = VectorStoreDBCreator(persistent_directory="chromadb")
-    qa = ContextAwareQA(vdb_factory)
-    response = qa.query_with_sources("What was Jim Abdo looking for?")
-    print(response)
-    response = qa.query_with_sources("What is Northrop Grumman?")
-    print(response)
-    response = qa.query_with_sources("Who is Joe Biden?")
-    print(response)
