@@ -22,7 +22,10 @@ if __name__ == '__main__':
         gdd = GoogleDriveDownloader(DRIVE_CREDENTIAL_FILE, DOWNLOAD_FOLDER)
         gdd.download_files()
 
-    vdb_factory = VectorStoreDBCreator(persistent_directory=VECTOR_DB_DIRECTORY)
+    corpora_folder = DOWNLOAD_FOLDER
+
+    vdb_factory = VectorStoreDBCreator(corpora_folder=corpora_folder, persistent_directory=VECTOR_DB_DIRECTORY)
+    db = vdb_factory.vectorstore
     qa = ContextAwareQA(vdb_factory)
 
     while True:
@@ -37,3 +40,14 @@ if __name__ == '__main__':
         print("="*20)
         print(f'Sources: {response["sources"]}')
         print("="*20)
+
+
+"""
+examples:
+"What was Jim Abdo looking for?"
+"What is Northrop Grumman?"
+"Who is Joe Biden?"
+
+To Run
+docker run -it -v $(pwd)/downloads:/downloads -v $(pwd)/chromadb:/chromadb -e "OPENAI_API_KEY=$(cat openai_secret_key)" chat-bot
+"""

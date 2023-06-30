@@ -40,6 +40,7 @@ Notes:
 - `<dirname_download>` refers to the directory where the articles will be stored.
 - `<dirname_db>` refers to the directory where the vectorized articles will be stored.
 - `<OPENAI_API_KEY>` is the OpenAI token.
+- There is a practical example how to run the docker inside the main.py file.
 
 
 ### Considerations

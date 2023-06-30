@@ -47,14 +47,15 @@ class VectorStoreDBCreator:
         Args:
             db (Chroma): The Chroma database instance.
         """
-
+        processed_docs = set(e["source"] for e in db.get()["metadatas"])
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-        loaders = [JSONLoader(file, ".body") for file in self.corpora_files]
+        loaders = [JSONLoader(file, ".body") for file in self.corpora_files if file not in processed_docs]
 
         if self.corpora_folder:
-            loaders += [
-                JSONLoader(os.path.join(self.corpora_folder, file), ".body") for file in os.listdir(self.corpora_folder)
-            ]
+            for filename in os.listdir(self.corpora_folder):
+                file = os.path.join(self.corpora_folder, filename)
+                if file not in processed_docs:
+                    loaders.append(JSONLoader(file, ".body"))
 
         for loader in loaders:
             logger.info("processing data...")
@@ -88,8 +89,3 @@ class VectorStoreDBCreator:
             self._load_docs(self._db)
 
         return self._db
-
-
-if __name__ == '__main__':
-    vdb_factory = VectorStoreDBCreator(persistent_directory="chromadb")
-    db = vdb_factory.load_vector_store()
