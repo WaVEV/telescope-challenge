@@ -31,3 +31,9 @@ Make sure you have Docker installed and running on your machine.
 
 - The script uses Playwright to emulate a browser, which helps avoid captchas and scrape the G2Crowd website effectively.
 - The crawler will output the scraped data to the console.
+
+
+### Considerations
+
+Even though the captcha was successfully passed, there is an instant ban imposed by the browser. Therefore, it is necessary to spawn a new browser for every URL that is crawled. Firefox browser has shown better performance in bypassing captchas, but it currently has an [open issue](https://github.com/microsoft/playwright/issues/19114) that prevents clicking the captcha validator. On the other hand, using the Chromium browser with the Firefox context has proven to work effectively.
+

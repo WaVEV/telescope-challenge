@@ -15,15 +15,38 @@ logger = logging.getLogger(__name__)
 
 
 class VectorStoreDBCreator:
+    """
+    Creates a vectorized document given files in a folder or a list of files.
+    Persists the data on disk if a persistent directory is provided.
+    Uses an embedding function to vectorize the data. If not provided, it uses OpenAIEmbeddings by default.
+    """
 
-    def __init__(self, corpora_folder: str = None, corpora_files: List = [], persistent_directory: str = None, llm=None):
+    def __init__(self, corpora_folder: str = None, corpora_files: List = [], persistent_directory: str = None,
+                 embedding_function=None):
+
+        """
+        Initialize the VectorStoreDBCreator.
+
+        Args:
+            corpora_folder (str): The folder path containing the corpora files. Default is None.
+            corpora_files (List): A list of specific corpora files. Default is an empty list.
+            persistent_directory (str): The directory path to persist the vectorized data. Default is None.
+            embedding_function (optional): The embedding function to use for vectorization. Default is None, which uses OpenAIEmbeddings.
+        """
+
         self.corpora_files = corpora_files
         self.corpora_folder = corpora_folder
         self.persistent_directory = persistent_directory
-        self._embedding_function = OpenAIEmbeddings()
+        self._embedding_function = embedding_function() if embedding_function else OpenAIEmbeddings()
         self._db = None
 
     def _load_docs(self, db: Chroma):
+        """
+        Load and vectorize documents using a JSONLoader and store them in a Chroma database.
+
+        Args:
+            db (Chroma): The Chroma database instance.
+        """
 
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
         loaders = [JSONLoader(file, ".body") for file in self.corpora_files]
@@ -41,6 +64,16 @@ class VectorStoreDBCreator:
 
     @cached_property
     def vectorstore(self):
+        """
+        Get the vector store.
+
+        If a persistent directory was set, it loads the vectorized data from the directory
+        or creates an empty database if the directory does not exist.
+        It adds new articles if there is a corpora folder or corpora files.
+
+        Returns:
+            Chroma: The Chroma vector store.
+        """
 
         if self.persistent_directory:
             logger.info("Creating a persistent DB.")

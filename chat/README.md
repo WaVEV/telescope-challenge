@@ -40,3 +40,8 @@ Notes:
 - `<dirname_download>` refers to the directory where the articles will be stored.
 - `<dirname_db>` refers to the directory where the vectorized articles will be stored.
 - `<OPENAI_API_KEY>` is the OpenAI token.
+
+
+### Considerations
+
+In this project, Langchain, a language modeling framework, was utilized along with specific models provided by OpenAI. The project also involves a service account that facilitates the data download from Google Drive. However, only a small portion of the Socially-Informed Timeline Generation Corpus dataset was tokenized for this project. To make these documents accessible for downloading by the service account user, they were uploaded to my personal Google Drive.

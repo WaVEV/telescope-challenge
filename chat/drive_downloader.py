@@ -14,14 +14,41 @@ logger = logging.getLogger(__name__)
 
 
 class GoogleDriveDownloader:
+    """
+    A helper class to download files from Google Drive.
+
+    Args:
+        credentials_fileno (str): The Google Cloud credential file path.
+        destination_folder (Optional[str]): The destination folder where the documents will be stored.
+        Default is current directory.
+    """
 
     def __init__(self, credentials_fileno: str, destination_folder: Optional[str] = '.'):
+        """
+        Initialize the GoogleDriveDownloader.
+
+        Args:
+            credentials_fileno (str): The Google Cloud credential file path.
+            destination_folder (Optional[str]): The destination folder where the documents will be stored.
+            Default is current directory.
+        """
         self._credentials_fileno = credentials_fileno
         self._drive_service = None
         self.destination_folder = destination_folder
 
     def get_document_content(self, file_metadata: dict):
+        """
+        Download a file from Google Drive.
 
+        Args:
+            file_metadata (dict): Metadata of the file to be downloaded.
+
+        Returns:
+            str: The path of the downloaded file on the local system.
+
+        Raises:
+            HttpError: If an error occurs during the download process.
+        """
         new_file_name = None
         try:
             request = self.drive_service.files().get_media(
@@ -42,12 +69,30 @@ class GoogleDriveDownloader:
 
     @property
     def drive_service(self):
+        """
+        Get the Google Drive service instance.
+
+        Returns:
+            Resource: The Google Drive service instance.
+
+        Raises:
+            FileNotFoundError: If the credentials file is not found.
+        """
         if not self._drive_service:
             credentials = service_account.Credentials.from_service_account_file(self._credentials_fileno)
             self._drive_service = build('drive', 'v3', credentials=credentials)
         return self._drive_service
 
     def download_files(self):
+        """
+        Download all the files from Google Drive.
+
+        Returns:
+            None
+
+        Raises:
+            Any exceptions raised during the file download process.
+        """
         files = self.drive_service.files().list(
             q="mimeType='application/octet-stream'").execute().get('files', [])
         for file in files:
@@ -55,9 +100,11 @@ class GoogleDriveDownloader:
             logger.info(content)
 
     def __delete__(self):
+        """
+        Clean up resources.
+
+        Returns:
+            None
+        """
         self.drive_service.close()
-
-
-if __name__ == '__main__':
-    gdd = GoogleDriveDownloader("telescope-391101-0d419a69f595.json", "downloads")
-    gdd.download_files()
+        super().__delete__()
